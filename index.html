@@ -1,3 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Site</title>
+  <script>
+    // Desabilitar o clique direito do mouse
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Prevenir abrir o console via atalhos (F12, Ctrl+Shift+I, Ctrl+Shift+J)
+    document.addEventListener('keydown', function(e) {
+      if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74))) {
+        e.preventDefault();
+      }
+    });
+
+    // Sobrescrever métodos do console para "ocultar" mensagens
+    console.log = function() {};
+    console.error = function() {};
+    console.warn = function() {};
+  </script>
+</head>
+<body>
+  <h1>Bem-vindo ao meu site!</h1>
+  <p>Este é um exemplo de como você pode tentar bloquear o acesso ao console de desenvolvedor.</p>
+</body>
+</html>
+
+
 <!DOCTYPE html><html><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
