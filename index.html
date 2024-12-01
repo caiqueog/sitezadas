@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bloqueio do Console</title>
   <script>
     // Função para bloquear a tecla pressionada
     (function() {
@@ -62,15 +61,12 @@
       setInterval(function() {
         if (window.console && (console.memory || console.log === Function.prototype)) {
           bloqueioConsole = true;
-          alert("Você não pode acessar o console de desenvolvedor.");
         }
       }, 1000);
     })();
   </script>
 </head>
 <body>
-  <h1>Conteúdo da Página</h1>
-  <p>Você não pode acessar o console de desenvolvedor nesta página.</p>
 </body>
 </html>
 
