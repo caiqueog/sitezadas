@@ -1,31 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloqueio do Console</title>
   <script>
-    // Desabilitar o clique direito do mouse
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
+    // Função para bloquear a tecla pressionada
+    (function() {
+      // Bloquear as teclas de atalho para as ferramentas de desenvolvedor
+      var bloquearTeclas = function(event) {
+        // Lista de teclas bloqueadas
+        var teclasBloqueadas = [
+          123,  // F12
+          18,   // Alt
+          16,   // Shift
+          17,   // Ctrl
+          73,   // Ctrl + Shift + I (Windows/Linux) ou Cmd + Option + I (Mac)
+          74,   // Ctrl + Shift + J (Windows/Linux) ou Cmd + Option + J (Mac)
+          75,   // F10 (Windows/Linux) - Se o console estiver ativado
+          83,   // Ctrl + S (Salvar página)
+          85,   // Ctrl + U (Ver código fonte)
+          67,   // Ctrl + Shift + C (Console do Safari)
+          75,   // Ctrl + Shift + K (Console do Firefox)
+          72,   // Cmd + Option + K (Mac - Firefox)
+        ];
 
-    // Prevenir abrir o console via atalhos (F12, Ctrl+Shift+I, Ctrl+Shift+J)
-    document.addEventListener('keydown', function(e) {
-      if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74))) {
-        e.preventDefault();
+        // Se a tecla pressionada for uma das teclas bloqueadas, cancela a ação
+        if (teclasBloqueadas.includes(event.keyCode) || 
+            (event.ctrlKey && event.keyCode === 73) ||  // Ctrl+Shift+I ou Cmd+Option+I
+            (event.ctrlKey && event.keyCode === 74) ||  // Ctrl+Shift+J ou Cmd+Option+J
+            (event.ctrlKey && event.keyCode === 83)) {  // Ctrl+S
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+      };
+
+      // Adiciona o bloqueio de teclas para os eventos 'keydown', 'keypress', e 'keyup'
+      window.addEventListener('keydown', bloquearTeclas);
+      window.addEventListener('keypress', bloquearTeclas);
+      window.addEventListener('keyup', bloquearTeclas);
+    })();
+
+    // Desabilita o clique direito (botão direito do mouse) na página
+    document.addEventListener('contextmenu', function(event) {
+      event.preventDefault();
+    });
+    
+    // Desabilita as combinações de teclas como Ctrl + U para ver o código fonte
+    window.addEventListener('keydown', function(event) {
+      if ((event.ctrlKey && event.key === 'u') || 
+          (event.ctrlKey && event.key === 's')) {
+        event.preventDefault();
       }
     });
 
-    // Sobrescrever métodos do console para "ocultar" mensagens
-    console.log = function() {};
-    console.error = function() {};
-    console.warn = function() {};
+    // Detecta alterações no console e tenta bloquear
+    (function() {
+      var bloqueioConsole = false;
+
+      setInterval(function() {
+        if (window.console && (console.memory || console.log === Function.prototype)) {
+          bloqueioConsole = true;
+          alert("Você não pode acessar o console de desenvolvedor.");
+        }
+      }, 1000);
+    })();
   </script>
 </head>
 <body>
+  <h1>Conteúdo da Página</h1>
+  <p>Você não pode acessar o console de desenvolvedor nesta página.</p>
 </body>
 </html>
-
 
 <!DOCTYPE html><html><head>
   <meta charset="UTF-8">
